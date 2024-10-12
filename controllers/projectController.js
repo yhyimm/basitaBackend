@@ -106,11 +106,33 @@ const updateProject = (req, res) => {
     }
 
 
+const deleteProject = (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decoded = jwt.verify(token, key);
+
+    if (!decoded) {
+        return res.status(401).json({ message: 'Invalid token' });
+    }
+
+    const id = req.params.id;
+
+    projectModel.findByIdAndDelete(id)
+        .then(result => {
+            res.send(result);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('error deleting project');
+        });
+};    
+
+
 module.exports = {
     getProjects,
     getProjectsAr,
     getProjectByName,
     getprojectByNameAr,
     addProject,
-    updateProject
+    updateProject,
+    deleteProject
 };

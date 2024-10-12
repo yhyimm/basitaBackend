@@ -54,8 +54,29 @@ const updateMember = (req, res) => {
     });
 };
 
+const deleteMember = (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decoded = jwt.verify(token, key);
+
+    if (!decoded) {
+        return res.status(401).json({ message: 'Invalid token' });
+    }
+
+    const id = req.params.id;
+
+    memberModel.findByIdAndDelete(id)
+    .then(result =>{
+        res.send(result);
+    })
+    .catch(err =>{
+        console.log(err);
+        res.status(500).send('error deleting member');
+    });
+};
+
 module.exports = {
     getMembers,
     addMember,
-    updateMember
+    updateMember,
+    deleteMember
 };

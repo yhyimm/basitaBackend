@@ -94,6 +94,26 @@ const updateService = (req, res) => {
         });
 };    
 
+const deleteService = (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decoded = jwt.verify(token, key);
+
+    if (!decoded) {
+        return res.status(401).json({ message: 'Invalid token' });
+    }
+
+    const id = req.params.id;
+
+    serviceModel.findByIdAndDelete(id)
+        .then(result => {
+            res.send(result);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('error deleting service');
+        });
+};
+
 
 module.exports = {
     getServices,
@@ -101,5 +121,6 @@ module.exports = {
     getServiceByName,
     getServiceByNameAr,
     addService,
-    updateService
+    updateService,
+    deleteService
 };
