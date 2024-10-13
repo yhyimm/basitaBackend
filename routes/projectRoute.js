@@ -14,6 +14,9 @@ router.get('/ar', projectController.getProjectsAr);
 router.get('/ar/:name', projectController.getprojectByNameAr);
 
 // here you'll define the admin routes
+router.put('/add', uploadImage.single('image'), saveImage('assets/project-images/'), projectController.addProject);
+router.post('/update/:id', uploadImage.single('image'), saveImage('assets/project-images/'), projectController.updateProject);
+router.delete('/delete/:id', projectController.deleteProject);
 
 module.exports = router;
 

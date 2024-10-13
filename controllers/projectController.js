@@ -51,7 +51,6 @@ const getprojectByNameAr = (req, res) =>{
 };
 
 const addProject = (req, res) => {
-
     const token = req.headers.authorization.split(' ')[1];
     const decoded = jwt.verify(token, key);
     
@@ -60,25 +59,31 @@ const addProject = (req, res) => {
     }
 
     const body = req.body;
-    
+
+    // Handle the uploaded image
     if (req.file) {
-        // make the body image as the name of the file
-        body.image = req.fileName;
+        console.log('inside the if statement');
+        body.image = req.file.originalname; // Save the original image name
+        console.log('image name is: ', body.image);
     }
 
+    // Parse order_of_display
     body.order_of_display = parseInt(body.order_of_display);
-    const project = new ourProjects(body);
+
+    // Create a new project instance
+    const project = new projectModel(body); // Only instantiate once
+
+    // Save the project to the database
     project.save()
         .then(result => {
-            res.send(result);
+            res.send(result); // Send the result as response
         })
         .catch(err => {
             console.log(err);
             res.status(500).send({ message: 'Error saving project', error: err });
         });
-        project = new projectModel(body);
+};
 
-}
 
 const updateProject = (req, res) => {
     
@@ -97,6 +102,7 @@ const updateProject = (req, res) => {
         }
     
         body.order_of_display = parseInt(body.order_of_display);
+        
         projectModel.findByIdAndUpdate(id, body, { new: true })
             .then(result => {
                 res.send(result);

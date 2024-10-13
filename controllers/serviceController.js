@@ -61,6 +61,12 @@ const addService = (req, res) => {
         }
     
         const body = req.body;
+
+        if(req.file){
+            body.image = req.fileName;
+        }
+
+        body.orderOfDisplay = parseInt(body.orderOfDisplay);
         const service = new serviceModel(body);
     
         service.save()
@@ -83,6 +89,11 @@ const updateService = (req, res) => {
 
     const id = req.params.id;
     const body = req.body;
+
+    if(req.file){
+        body.image = req.fileName;
+    }
+    body.orderOfDisplay = parseInt(body.orderOfDisplay);
 
     serviceModel.findByIdAndUpdate(id, body, { new: true })
         .then(result => {

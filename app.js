@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const http = require('http');
 const morgan = require('morgan');
+const fs = require('fs');
 const path = require('path');
 
 const projectsRouter = require('./routes/projectRoute');

@@ -22,7 +22,15 @@ const addMember = (req, res) => {
         return res.status(401).json({ message: 'Invalid token' });
     }
 
-    const member = new memberModel(req.body);
+    const body = req.body;
+
+    if(req.file){
+        body.image = req.fileName;
+    }
+
+    body.orderOfDisplay = parseInt(body.orderOfDisplay);
+    const member = new memberModel(body);
+
     member.save()
     .then(result =>{
         res.send(result);
@@ -42,6 +50,11 @@ const updateMember = (req, res) => {
     }
 
     const id = req.params.id;
+
+    if(req.file){
+        req.body.image = req.fileName;
+    }
+
     const body = req.body;
 
     memberModel.findByIdAndUpdate(id, body)

@@ -1,4 +1,4 @@
-const Admin = require('../models/admin');  // Use PascalCase for model names
+const Admin = require('../models/adminModel');  // Use PascalCase for model names
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 // this key will be changed latter and stored in a .env file
@@ -36,8 +36,8 @@ const createAdmin = async (req, res) => {
 // Authenticate admin
 const authenticateAdmin = async (req, res) => {
     try {
-        const { username, password } = req.body;
-        console.log('username is: ',username);
+        const username = req.body.username;
+        const password = req.body.password;
 
         // Find the admin by username
         const admin = await Admin.findOne({ username });
@@ -61,7 +61,7 @@ const authenticateAdmin = async (req, res) => {
     }
 };
 
-const adminIndex = async (req, res) => {
+const getAdmins = async (req, res) => {
     try {
 
         const token = req.headers.authorization.split(' ')[1];
@@ -139,4 +139,9 @@ const updateAdminPassword = async (req, res) => {
 
 }
 
-module.exports = { createAdmin, authenticateAdmin, adminIndex, deleteAdmin, updateAdminPassword };
+module.exports = {
+     createAdmin, 
+     authenticateAdmin, 
+     getAdmins, 
+     deleteAdmin, 
+     updateAdminPassword };
