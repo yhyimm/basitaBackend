@@ -25,7 +25,7 @@ const addMember = (req, res) => {
     const body = req.body;
 
     if(req.file){
-        body.image = req.fileName;
+        body.image = req.file.originalname;
     }
 
     body.orderOfDisplay = parseInt(body.orderOfDisplay);
@@ -52,7 +52,7 @@ const updateMember = (req, res) => {
     const id = req.params.id;
 
     if(req.file){
-        req.body.image = req.fileName;
+        req.body.image = req.file.originalname;
     }
 
     const body = req.body;

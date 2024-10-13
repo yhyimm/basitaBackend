@@ -62,9 +62,7 @@ const addProject = (req, res) => {
 
     // Handle the uploaded image
     if (req.file) {
-        console.log('inside the if statement');
-        body.image = req.file.originalname; // Save the original image name
-        console.log('image name is: ', body.image);
+        body.image = req.file.originalname;
     }
 
     // Parse order_of_display

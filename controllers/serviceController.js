@@ -63,7 +63,7 @@ const addService = (req, res) => {
         const body = req.body;
 
         if(req.file){
-            body.image = req.fileName;
+            body.image = req.file.originalname;
         }
 
         body.orderOfDisplay = parseInt(body.orderOfDisplay);
