@@ -4,6 +4,7 @@ const http = require('http');
 const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
+const cors = require('cors');
 
 const projectsRouter = require('./routes/projectRoute');
 const servicesRouter = require('./routes/serviceRoute');
@@ -11,6 +12,7 @@ const teamRouter = require('./routes/team-memberRoute');
 const adminRouter = require('./routes/adminRoute');
 
 const app = express();
+app.use(cors());
 // connect to the database and start the server
 mongoose.connect('mongodb+srv://admin:basitaAdmin@basita-cluster.foqtz.mongodb.net/Basita?retryWrites=true&w=majority&appName=Basita-Cluster')
     .then(() =>{
